@@ -7,8 +7,12 @@ const file = await Deno.open(pathToFile, { read: true });
 
 await file.readable.pipeTo(writableStream());
 
+function getAllPlanets() {
+  return planets;
+}
+
 export default {
-  planets,
+  getAllPlanets,
 };
 
 /* functions */
