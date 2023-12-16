@@ -1,5 +1,7 @@
 const launches = new Map<number, Launch>();
 
+let latestFlightNumber = 100;
+
 const launch: Launch = {
   flightNumber: 100,
   mission: "Kepler Exploration X",
@@ -18,12 +20,49 @@ function getAllLaunches() {
   return Array.from(allLaunches);
 }
 
+function addNewLaunch(
+  launch: Omit<Launch, "flightNumber" | "customer" | "upcoming" | "success">,
+) {
+  latestFlightNumber++;
+
+  //add server genetared values
+  const newLaunch = Object.assign(launch, {
+    flightNumber: latestFlightNumber,
+    customer: ["NASA", "ZTM"],
+    upcoming: true,
+    success: true,
+  });
+
+  launches.set(
+    latestFlightNumber,
+    newLaunch,
+  );
+}
+
+function launchWithIdExists(launchId: number) {
+  return launches.has(launchId);
+}
+
+function abortLaunchById(launchId: number) {
+  const aborted = launches.get(launchId);
+
+  if (aborted) {
+    aborted.upcoming = false;
+    aborted.success = false;
+  }
+
+  return aborted;
+}
+
 export default {
   getAllLaunches,
+  addNewLaunch,
+  launchWithIdExists,
+  abortLaunchById,
 };
 
 /* types */
-type Launch = {
+export type Launch = {
   flightNumber: number;
   mission: string;
   rocket: string;
@@ -33,3 +72,8 @@ type Launch = {
   upcoming: boolean;
   success: boolean;
 };
+
+export type InputLaunch = Omit<
+  Launch,
+  "flightNumber" | "customer" | "upcoming" | "success"
+>;

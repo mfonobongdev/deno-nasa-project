@@ -15,3 +15,5 @@ export { default as cors } from "npm:cors@2.8.5";
 export { default as morgan } from "npm:morgan@1.10.0";
 
 export { parse } from "npm:csv-parse@5.5.3/sync";
+
+export { z } from "npm:zod@3.22.4";
